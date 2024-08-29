@@ -1,0 +1,27 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: .\build.bat
+
+      - name: Build installer
+        run: .\installer\build.bat
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: amneziawg-1.0.0
+          path: .\installer\dist\*
+          if-no-files-found: error
+          overwrite: true
